@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Butifarra</title>
+    <style media="screen">
+      #tablero{
+        position: relative;
+        margin: 20px auto;
+        width: 800px;
+        height: 600px;
+        border: 1px solid;
+      }
+      #tablero div{
+        display:block;
+      }
+      #user1{
+        position:absolute;
+        bottom:0;
+      }
+      .carta{
+        width: 50px;
+        height:90px;
+        border-radius: 12px;
+        float:left;
+        margin-right: 10px;
+        opacity: 0.6;
+        font-family:Helvetica;
+        font-size:22px;
+        text-align: center;
+        position: relative;
+        z-index:9;
+        border:1px solid black;
+      }
+      .__oros{
+        background: #FFFA85;
+      }
+      .__bastos{
+        background: #A7D44D;
+      }
+      .__espasses{
+        background: #5A96A7;
+      }
+      .__copes{
+        background: #D46A6A;
+      }
+      .jugada{
+        width:500px;
+        height:400px;
+        position:relative;
+        margin:40px auto;
+      }
+      #esquerra{
+        position:absolute;
+        top: 150px;
+        left:100px;
+      }
+      #dreta{
+        position:absolute;
+        top: 150px;
+        right:100px;
+      }
+      #dalt{
+        position:absolute;
+        top: 30px;
+        right:215px;
+      }
+      #tu{
+        position:absolute;
+        bottom: 30px;
+        right:215px;
+      }
+      #seleccio-init{
+        position: absolute;
+        top:150px;
+        right:215px;
+      }
+      .seleccio{
+        width: 100px;
+        height:100%;
+        position: absolute;
+        top:40px;
+        right:10px;
+      }
+      .pals{
+        width:80px;
+        height:50px;
+        float:left;
+        border:1px solid black;
+        margin:10px;
+      }
+      .butifarra{
+        background-color: black;
+        color:#ffffff;
+      }
+      #seleccionat{
+        position:absolute;
+        top:40px;
+        left:10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="tablero">
+      <div id="user1"></div>
+      <div class="jugada">
+        <div id="esquerra" class="carta"></div>
+        <div id="dreta" class="carta"></div>
+        <div id="dalt" class="carta"></div>
+        <div id="tu" class="carta"></div>
+        <div id="seleccio-init" class="carta"></div>
+      </div>
+      <div class="seleccio">
+        <div class="pals __oros">OROS</div>
+        <div class="pals __copes">COPES</div>
+        <div class="pals __espasses">ESPASSES</div>
+        <div class="pals __bastos">BASTOS</div>
+        <div class="pals butifarra">BUTIFARRA</div>
+      </div>
+      <div id="seleccionat" class="pals">&nbsp;</div>
+    </div>
+    <script src="cards.js" charset="utf-8"></script>
+  </body>
+</html>
