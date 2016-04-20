@@ -1,9 +1,10 @@
 (function(){
   var user1, user2, user3, user4, //4 jugadors -- user1 = tu!
       user1Sortida, user2Sortida, user3Sortida, user4Sortida, // carta assignada al principi per escollir qui reparteix
-      _triomf, _paldejugada, card, userSelected, premi, flagMeWinner, // cariables per triomf, pal de jugada, carta i premi
+      _triomf, _paldejugada, card, userSelected, premi, flagMeWinner = true, // cariables per triomf, pal de jugada, carta i premi
       teamOne = 0, teamTwo = 0, // equip 1 (tu i jugador de dalt) equip dos (jugador esquerra i jugado dreta)
       tapete = document.getElementById('user1'), // varibal per tapete
+      sortidaInicial = document.getElementById('seleccio-init'), //carta que decideix qui inicia partida
       triomfSel = document.getElementById("seleccionat"), // variable per el contenidor on apraeix el triomf al taulei
       triomfPals = document.getElementsByClassName('pals'), // variables per les caselles per escollir pal
       count = 0, //contador de voltes
@@ -31,7 +32,6 @@
    //Iniciar sortida
    function repartirCartaInitial(){
      var sortida = ['oros', 'espasses', 'copes', 'bastos'],
-         sortidaInicial = document.getElementById('seleccio-init'),
          cartaDeSortida = pilot.slice(Math.floor(Math.random() * 48))[0];
 
      shuffle(sortida);
@@ -50,30 +50,39 @@
      sortidaInicial.innerHTML = cartaDeSortida;
      sortidaInicial.className = 'tapetejugada carta __' + cartaDeSortida;
 
+     if (cartaDeSortida === user1Sortida) initGame(1)
+     if (cartaDeSortida === user2Sortida) initGame(2)
+     if (cartaDeSortida === user3Sortida) initGame(3)
+     if (cartaDeSortida === user4Sortida) initGame(4)
+
+   }
+   function initGame(numb){
+     console.log(numb)
      shuffle(pilot)
      //Distribueix cartes
      user1 = pilot.slice(0, 12);
+     console.log(user1.length)
      ordenarCartesPerValor(user1);
      user2 = pilot.slice(12, 24);
+     console.log(user2.length)
      ordenarCartesPerValor(user2);
      user3 = pilot.slice(24, 36);
+     console.log(user3.length)
      ordenarCartesPerValor(user3);
      user4 = pilot.slice(36, 48);
+     console.log(user4.length)
      ordenarCartesPerValor(user4);
 
-      if (cartaDeSortida === user1Sortida){
-         repartirAndEscollir(user1, 'tu')
-      }else if(cartaDeSortida === user2Sortida){
-         repartirAndEscollir(user2, 'esquerra')
-      }else if(cartaDeSortida === user3Sortida){
-         repartirAndEscollir(user3, 'dreta')
-      }else{
-         repartirAndEscollir(user4, 'dalt')
-      }
+     if (numb == 1) repartirAndEscollir(user1, 'tu')
+     if (numb == 2) repartirAndEscollir(user2, 'esquerra')
+     if (numb == 3) repartirAndEscollir(user3, 'dreta')
+     if (numb == 4) repartirAndEscollir(user4, 'dalt')
+
+
       setTimeout(function(){
         myCards();
       },2000)
-    }
+   }
 
    //Escollir triomf (????)
    function repartirAndEscollir(user, position){
@@ -88,7 +97,24 @@
            createTriomfSign(x.pal)
          }
        });
-       sortidaDeCartaGuanyadora(user, position)
+       if(user.length != 0){
+         sortidaDeCartaGuanyadora(user, position)
+       }else{
+         switch (user) {
+           case 1:
+             initGame(1)
+             break;
+           case 2:
+             initGame(2)
+             break;
+           case 3:
+             initGame(3)
+             break;
+           case 4:
+             initGame(4)
+             break;
+           }
+       }
      }else{
        for(var t = 0; t < triomfPals.length; t++){
          triomfPals[t].addEventListener('click', function(){
@@ -101,6 +127,7 @@
 
    //Carta de sortida
    function sortidaDeCartaGuanyadora(user, position){
+     console.log('THE USER US: '+ user)
      flagMeWinner = false;
      if(user.length != 0){
        setTimeout(function(){
@@ -111,7 +138,21 @@
          showCard(user,position, firstcard.valor, firstcard.puntuacio, firstcard.pal, user.indexOf(firstcard))
        }, 4000)
      }else{
-       console.log('G A M E  O V E R ! ! ! !')
+       console.log('G A M E  O V E R ! ! ! ! ! !');
+       switch (user) {
+         case user1:
+           initGame(1)
+           break;
+         case user2:
+           initGame(2)
+           break;
+         case user3:
+           initGame(3)
+           break;
+         case user4:
+           initGame(4)
+           break;
+         }
      }
    }
 
@@ -235,8 +276,6 @@
             return (el.pal == _paldejugada && el.puntuacio <= punt)
           }else if(el.pal == _triomf){
             return (el.pal == _triomf && el.valor == value)
-          }else{
-            return (el.pal == _paldejugada && el.puntuacio <= punt)
           }
         }
       });

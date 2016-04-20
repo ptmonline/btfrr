@@ -37,3 +37,27 @@ function setAttributes(el, attrs) {
      cleaner.setAttribute('class' , 'tapetejugada carta')
    }
  }
+ //  shuffle(pilot)
+ //  //Distribueix cartes
+ //  user1 = pilot.slice(0, 12);
+ //  ordenarCartesPerValor(user1);
+ //  user2 = pilot.slice(12, 24);
+ //  ordenarCartesPerValor(user2);
+ //  user3 = pilot.slice(24, 36);
+ //  ordenarCartesPerValor(user3);
+ //  user4 = pilot.slice(36, 48);
+ //  ordenarCartesPerValor(user4);
+  //
+ //   if (cartaDeSortida === user1Sortida){
+ //      repartirAndEscollir(user1, 'tu')
+ //   }else if(cartaDeSortida === user2Sortida){
+ //      repartirAndEscollir(user2, 'esquerra')
+ //   }else if(cartaDeSortida === user3Sortida){
+ //      repartirAndEscollir(user3, 'dreta')
+ //   }else{
+ //      repartirAndEscollir(user4, 'dalt')
+ //   }
+ //   setTimeout(function(){
+ //     myCards();
+ //   },2000)
+ // }
