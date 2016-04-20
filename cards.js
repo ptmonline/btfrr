@@ -1,10 +1,13 @@
 (function(){
-  var user1 = [], user2 = [], user3 = [], user4 = [];
-  var user1Sortida, user2Sortida, user3Sortida, user4Sortida;
-  var tapete = document.getElementById('user1');
-  var triomf;
-  var winner = [];
-  var pilot = [
+  var user1, user2, user3, user4,
+      user1Sortida, user2Sortida, user3Sortida, user4Sortida,
+      triomf, paldejugada, card, userSelected,
+      tapete = document.getElementById('user1'),
+      triomfSel = document.getElementById("seleccionat"),
+      triomfPals = document.getElementsByClassName('pals'),
+      count = 0,
+      winner = {},
+      pilot = [
     {valor:1, pal:'oros', puntuacio: 4},{valor:2, pal:'oros', puntuacio: 0},{valor:3, pal:'oros', puntuacio: 0},
     {valor:4, pal:'oros', puntuacio: 0},{valor:5, pal:'oros', puntuacio: 0},{valor:6, pal:'oros', puntuacio: 0},
     {valor:7, pal:'oros', puntuacio: 0},{valor:8, pal:'oros', puntuacio: 0},{valor:9, pal:'oros', puntuacio: 5},
@@ -21,7 +24,7 @@
     {valor:4, pal:'espasses', puntuacio: 0},{valor:5, pal:'espasses', puntuacio: 0},{valor:6, pal:'espasses', puntuacio: 0},
     {valor:7, pal:'espasses', puntuacio: 0},{valor:8, pal:'espasses', puntuacio: 0},{valor:9, pal:'espasses', puntuacio: 5},
     {valor:10, pal:'espasses', puntuacio: 1},{valor:11, pal:'espasses', puntuacio: 2},{valor:12, pal:'espasses', puntuacio: 3},
-   ]
+  ];
 
    //Iniciar sortida
    function repartirCartaInitial(){
@@ -43,20 +46,31 @@
 
      cartaDeSortida = cartaDeSortida.pal;
      sortidaInicial.innerHTML = cartaDeSortida;
-     sortidaInicial.className = 'carta __' + cartaDeSortida;
+     sortidaInicial.className = 'tapetejugada carta __' + cartaDeSortida;
+
+     shuffle(pilot)
+     //Distribueix cartes
+     user1 = pilot.slice(0, 12);
+     ordenarCartesPerValor(user1);
+     user2 = pilot.slice(12, 24);
+     ordenarCartesPerValor(user2);
+     user3 = pilot.slice(24, 36);
+     ordenarCartesPerValor(user3);
+     user4 = pilot.slice(36, 48);
+     ordenarCartesPerValor(user4);
 
      if (cartaDeSortida === user1Sortida){
        console.log('user 1 is the winner')
-       repartirAndEscollir(user1)
+       repartirAndEscollir(user1, 'tu')
       }else if(cartaDeSortida === user2Sortida){
          console.log('user 2 is the winner')
-         repartirAndEscollir(user2)
+         repartirAndEscollir(user2, 'esquerra')
       }else if(cartaDeSortida === user3Sortida){
          console.log('user 3 is the winner')
-         repartirAndEscollir(user3)
+         repartirAndEscollir(user3, 'dreta')
       }else{
          console.log('user 4 is the winner')
-         repartirAndEscollir(user4)
+         repartirAndEscollir(user4, 'dalt')
       }
       setTimeout(function(){
         myCards();
@@ -78,43 +92,47 @@
      return array;
    }
 
-   function repartirAndEscollir(guanyador){
-     console.log('guanyador es: '+guanyador)
-     shuffle(pilot)
-     //Distribueix cartes
-     user1 = pilot.slice(0, 12);
-     ordenarCartesPerValor(user1);
-     user2 = pilot.slice(12, 24);
-     ordenarCartesPerValor(user2);
-     user3 = pilot.slice(24, 36);
-     ordenarCartesPerValor(user3);
-     user4 = pilot.slice(36, 48);
-     ordenarCartesPerValor(user4);
+   //Escollir triomf (????)
+   function repartirAndEscollir(user, position){
+     console.log('guanyador es: '+user)
+     if(user != user1){
+       var counts = {};
+       user.forEach(function(x) {
+         counts[x.pal] = (counts[x.pal] || 0)+1;
+         if(counts[x.pal] >= 4 ){
+           createTriomfSign(x.pal)
+         }
+       });
+       sortidaDeCartaGuanyadora(user, position)
 
-     //Escolleig triomf (????)
-     var counts = {};
-     user3.forEach(function(x) {
-       counts[x.pal] = (counts[x.pal] || 0)+1;
-       console.log(counts)
-       if(counts[x.pal] >= 4 ){
-         console.log(x.pal);
-         var triomfSel = document.getElementById("seleccionat");
-         triomfSel.previousElementSibling.style.display = "none";
-         triomfSel.setAttribute('class', 'pals __' + x.pal);
-         triomfSel.innerHTML = x.pal;
-         triomf = x.pal;
-         console.log(triomf)
+
+     }else{
+       for(var t = 0; t < triomfPals.length; t++){
+         triomfPals[t].addEventListener('click', function(){
+           var pal = this.innerHTML.toLowerCase();
+           createTriomfSign(pal)
+         })
        }
-     });
-
-     //Carta de sortida
-     setTimeout(function(){
-       var firstcard = user3[Math.floor(Math.random() * 12)];
-       startPlay(user3,'dreta', firstcard.valor, firstcard.puntuacio, firstcard.pal, user3.indexOf(firstcard))
-     }, 4000)
-
+     }
    }
 
+   //Carta de sortida
+   function sortidaDeCartaGuanyadora(user, position){
+     setTimeout(function(){
+       var firstcard = user[Math.floor(Math.random() * user.length)];
+       paldejugada = firstcard.pal;
+       console.log(paldejugada)
+       startPlay(user,position, firstcard.valor, firstcard.puntuacio, firstcard.pal, user.indexOf(firstcard))
+     }, 4000)
+   }
+
+   //Create triomf sign
+   function createTriomfSign(pal){
+     triomfSel.previousElementSibling.style.display = "none";
+     triomfSel.setAttribute('class', 'pals __' + pal);
+     triomfSel.innerHTML = pal;
+     triomf = pal;
+   }
 
    //Ordenar cartes per valor
    function ordenarCartesPerValor(user){
@@ -125,18 +143,18 @@
      })
    }
 
-   //Produeix la teva carta
+
+   //Produeix les tevas cartes
    function myCards(){
      console.log(user1.length)
      for(var x = 0; x < user1.length; x++){
-       var card;
        card = document.createElement('div');
        card.innerHTML = user1[x].valor;
        setAttributes(card, {
          'data-pal': user1[x].pal,
          'data-val': user1[x].valor,
          'data-punt': user1[x].puntuacio,
-         'class' : 'carta __' + user1[x].pal
+         'class' : 'tapetejugada carta __' + user1[x].pal
        })
        tapete.appendChild(card);
        card.addEventListener('click', function(){
@@ -159,29 +177,58 @@
 
    //Ensenya carta jugada
    function showCard(player, position, value, punt, pal, removedcard){
-     var userSelected;
      for(var t = 0; t < player.length; t++){
        console.log(player[t].valor + ' ' + player[t].pal)
      }
      player.splice(removedcard, 1);
-     winner[position] = punt;
+     //Check and reset count
+     count == 4 ? count = 1 : count += 1;
+     winner[position] = parseInt(punt);
      console.log(winner)
      userSelected = document.getElementById(position);
      userSelected.innerHTML === '' ? userSelected.innerHTML = value : userSelected.innerHTML = '', userSelected.innerHTML = value;
      setAttributes(userSelected, {
        'data-card': value,
-       'class': 'carta __' + pal
+       'class': 'tapetejugada carta __' + pal
      })
-     switch(position){
-       case 'tu':
-         nextHand(user3, 'dreta', value, punt, pal)
-         break;
-       case 'dreta':
-         nextHand(user3, 'dalt', value, punt, pal)
-         break;
-       case 'dalt':
-         nextHand(user3, 'esquerra', value, punt, pal)
-         break;
+     nextHandSelect(count, position, value, punt, pal)
+   }
+
+   function cleanTapete(){
+     var sortida = ['oros', 'espasses', 'copes', 'bastos'];
+     sortida.forEach(function(x){
+       var cleaner = document.getElementById(x);
+       cleaner.innerHTML = '';
+       cleaner.setAttribute('data-card' , '')
+       cleaner.setAttribute('class' , 'tapetejugada carta')
+
+     })
+
+   }
+
+   function nextHandSelect(count, position, value, punt, pal){
+     if(count < 4){
+       switch(position){
+         case 'tu':
+           nextHand(user3, 'dreta', value, punt, pal)
+           break;
+         case 'dreta':
+           nextHand(user4, 'dalt', value, punt, pal)
+           break;
+         case 'dalt':
+           nextHand(user2, 'esquerra', value, punt, pal)
+           break;
+       }
+     }else{
+       if(winner.dreta > winner.tu && winner.dreta > winner.esquerra && winner.dreta > winner.dalt){
+        sortidaDeCartaGuanyadora(user3, "dreta")
+       }else if(winner.esquerra > winner.tu && winner.esquerra > winner.dreta && winner.esquerra > winner.dalt){
+        sortidaDeCartaGuanyadora(user2, "esquerra")
+       }else{
+        sortidaDeCartaGuanyadora(user4, "dalt")
+       }
+       winner = {};
+       cleanTapete();
      }
    }
 
