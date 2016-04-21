@@ -5,35 +5,41 @@
     <title>Butifarra</title>
     <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/cards.min.css" media="screen" title="no title" charset="utf-8">
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
     <div id="tablero">
-      <div id="user1"></div>
-      <div class="jugada">
+      <aside class="texte-seleccio">
+        <h3>L A &nbsp;&nbsp;B U T I F A R R A</h3>
+        <div id="seleccionat" class="pal-seleccionat">&nbsp;</div>
+        <div id="seleccionatPosition" class="pal-seleccionat">&nbsp;</div>
+        <div id="seleccionatBasa" class="pal-seleccionat">&nbsp;</div>
+        <div id="basaSortidaGuanyador" class="pal-seleccionat">&nbsp;</div>
+        <div id="puntuacioTeamA" class="pal-seleccionat">&nbsp;</div>
+        <div id="puntuacioTeamB" class="pal-seleccionat">&nbsp;</div>
+        <div id="penalitzacio" class="pal-seleccionat">&nbsp;</div>
+        <div id="novaPartida" class="pal-seleccionat">clickar per a nova partida</div>
+      </aside>
+      <section class="jugada">
         <div id="esquerra" class="tapetejugada carta"></div>
         <div id="dreta" class="tapetejugada carta"></div>
         <div id="dalt" class="tapetejugada carta"></div>
         <div id="tu" class="tapetejugada carta"></div>
-        <div id="seleccio-init" class="carta"></div>
-      </div>
-      <div class="seleccio">
+      </section>
+      <section id="seleccio-initial" class="seleccio">
         <h3>Selecciona Triomf</h3>
         <div class="pals_triomf">OROS</div>
         <div class="pals_triomf">COPES</div>
         <div class="pals_triomf">ESPASSES</div>
         <div class="pals_triomf">BASTOS</div>
         <div class="pals_triomf">BUTIFARRA</div>
-      </div>
-      <!-- <div class="texte-seleccio">
-        <span>Triomf</span>
-        <div id="seleccionat" class="pals">&nbsp;</div>
-      </div> -->
-      <!-- <div class="texte-seleccio">Triomf</div>-->
-
-      <div id="seleccionat" class="pal-seleccionat">&nbsp;</div>
-      <div id="seleccionatPosition" class="pal-seleccionat">&nbsp;</div>
-      <div id="seleccionatBasa" class="pal-seleccionat">&nbsp;</div>
+      </section>
+      <section id="user1"></section>
+      <footer>pau torres &nbsp;&nbsp;|&nbsp;&nbsp; ptorresonline@gmail.com &nbsp;&nbsp;|&nbsp;&nbsp; https://github.com/ptmonline </footer>
     </div>
+
     <script src="src/cards.helpers.js" charset="utf-8"></script>
     <script src="src/cards.js" charset="utf-8"></script>
 

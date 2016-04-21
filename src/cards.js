@@ -1,7 +1,7 @@
 function NewGame(){
   var user1, user2, user3, user4, //4 jugadors -- user1 = tu!
       user1Sortida, user2Sortida, user3Sortida, user4Sortida, // carta assignada al principi per escollir qui reparteix
-      _triomf, _paldejugada, card, userSelected, premi, flagMeWinner = true, // cariables per triomf, pal de jugada, carta i premi
+      _triomf, _paldejugada, _valor, _punt, _palo, card, userSelected, premi, flagMeWinner = true, // cariables per triomf, pal de jugada, carta i premi
       teamOne = 0, teamTwo = 0, // equip 1 (tu i jugador de dalt) equip dos (jugador esquerra i jugado dreta)
       tapete = document.getElementById('user1'), // varibal per tapete
       sortidaInicial = document.getElementById('seleccio-init'), //carta que decideix qui inicia partida
@@ -9,6 +9,12 @@ function NewGame(){
       triomfPos= document.getElementById("seleccionatPosition"), // variable per el contenidor on apraeix el triomf al taulei
       seleccionatBasa = document.getElementById("seleccionatBasa"), //variable per pal de bassa
       triomfPals = document.getElementsByClassName('pals_triomf'), // variables per les caselles per escollir pal
+      seleccioInit = document.getElementById("seleccio-initial"),
+      basaSortidaGuanyador = document.getElementById("basaSortidaGuanyador"),
+      puntuacioTeamA = document.getElementById("puntuacioTeamA"),
+      puntuacioTeamB = document.getElementById("puntuacioTeamB"),
+      penalitzacio = document.getElementById("penalitzacio"),
+      novaPartida = document.getElementById("novaPartida"),
       count = 0, //contador de voltes
       winner = {}, // objecta on es llegeix la putuacio de cada jugada
       jugadorDeInici, // jugador -> company o contrari
@@ -41,16 +47,10 @@ function NewGame(){
      user2Sortida = sortida[1];
      user3Sortida = sortida[2];
      user4Sortida = sortida[3];
-    //  document.getElementById('tu').innerHTML = user1Sortida
-    //  document.getElementById('dreta').innerHTML = user3Sortida
-    //  document.getElementById('dalt').innerHTML = user4Sortida
-    //  document.getElementById('esquerra').innerHTML = user2Sortida
 
      shuffle(pilot);
 
      cartaDeSortida = cartaDeSortida.pal;
-    //  sortidaInicial.innerHTML = cartaDeSortida;
-    //  sortidaInicial.className = 'tapetejugada carta __' + cartaDeSortida;
 
      if (cartaDeSortida === user1Sortida) initGame(1)
      if (cartaDeSortida === user2Sortida) initGame(2)
@@ -78,7 +78,7 @@ function NewGame(){
 
       setTimeout(function(){
         myCards();
-      },2000)
+      },4000)
    }
 
    //Escollir triomf (????)
@@ -110,36 +110,41 @@ function NewGame(){
      if(user.length != 0){
        setTimeout(function(){
          var firstcard = user[Math.floor(Math.random() * user.length)];
+         _valor = firstcard.valor;
+         _punt = firstcard.puntuacio;
+         _palo = firstcard.pal;
          _paldejugada = firstcard.pal;
-         console.log('EL PAL DE SORTIDA ES '+ _paldejugada)
          seleccionatBasa.innerHTML = 'EL PAL DE SORTIDA ES '+ _paldejugada;
          showCard(user,position, firstcard.valor, firstcard.puntuacio, firstcard.pal, user.indexOf(firstcard))
+         basaSortidaGuanyador.innerHTML === '' ? basaSortidaGuanyador.innerHTML = "Guanyador de la bassa " + position : basaSortidaGuanyador.innerHTML = '', basaSortidaGuanyador.innerHTML = "Guanyador de la bassa " + position
        }, 4000)
      }else{
-       console.log('G A M E  O V E R ! ! ! ! ! !');
-       switch (user) {
-         case user1:
-           initGame(1)
-           break;
-         case user2:
-           initGame(2)
-           break;
-         case user3:
-           initGame(3)
-           break;
-         case user4:
-           initGame(4)
-           break;
-         }
+       if(teamOne >= 101 || teamTwo >= 101){
+         teamOne >= 101 ? alert('GAME OVER! TeamOne (tu i dalt) GUANYADORS!!') : alert('GAME OVER! TeamTwo (esquerra i dreta) GUANYADORS!!');
+         novaPartida.style.display = 'block'
+       }else{
+         switch (user) {
+           case user1:
+             initGame(1)
+             break;
+           case user2:
+             initGame(2)
+             break;
+           case user3:
+             initGame(3)
+             break;
+           case user4:
+             initGame(4)
+             break;
+        }
+       }
      }
    }
 
    //Create triomf sign
    function createTriomfSign(pal, position){
-
-     triomfSel.previousElementSibling.style.display = "none";
-    //  triomfSel.setAttribute('class', 'pals __' + pal);
-    triomfPos.innerHTML = 'TRIOMF ESCOLLIT PER JUGADOR ' + position;
+     seleccioInit.style.display = "none";
+     triomfPos.innerHTML = 'TRIOMF ESCOLLIT PER JUGADOR ' + position;
      triomfSel.innerHTML = 'EL TRIOMF ES: ' + pal;
      _triomf = pal;
   }
@@ -160,26 +165,51 @@ function NewGame(){
          var val, punt, pal;
          val = this.getAttribute('data-val');
          punt = this.getAttribute('data-punt');
-         pal = this.getAttribute('data-pal')
-         showCard(user1, 'tu', val, punt, pal, null);
+         pal = this.getAttribute('data-pal');
+         for(var x = 0; x < user1.length; x++){
+           if(user1[x].pal == pal && user1[x].valor == val){
+             rem = user1.indexOf(user1[x])
+           }
+         }
+         if(pal == _palo && punt > _punt){
+           _valor = val;
+           _punt = punt;
+           _palo = pal
+         }
+         //Penalitzar moviment incorrecta
+         if(!flagMeWinner){
+           if(pal != _triomf && pal != _paldejugada){
+             for(var x = 0; x < user1.length; x++){
+               if(user1[x].pal == _paldejugada || user1[x].pal == _triomf){
+                 penalitzacio.innerHTML = "penalitzacio"
+                 teamOne -=1;
+                 teamTwo +=1;
+               }
+             }
+           }
+         }
          if(flagMeWinner){
            _paldejugada = pal;
-           seleccionatBasa.innerHTML = 'EL PAL DE SORTIDA ES '+ _paldejugada
+           seleccionatBasa.innerHTML = 'EL PAL DE SORTIDA ES '+ _paldejugada;
+           _valor = val;
+           _punt = punt;
+           _palo = pal
+           showCard(user1, 'tu', val, punt, pal, rem);
+           this.remove();
+         }else{
+           showCard(user1, 'tu', val, punt, pal, rem);
+           this.remove();
          }
-         this.remove();
        })
-     }
+      }
    }
 
    //Ensenya carta jugada
    function showCard(player, position, value, punt, pal, removedcard){
-    //  for(var t = 0; t < player.length; t++){
-    //    console.log(player[t].valor + ' ' + player[t].pal)
-    //  }
+     console.log('CARTA INITIAL ', +_valor+' '+_paldejugada+' '+_punt)
      player.splice(removedcard, 1);
      //Check and reset count
      count == 4 ? count = 1 : count += 1;
-     console.log('VALUE IS: '+ value + ' POINTS ARE ' + punt + ' AND PAL ' + pal);
      winner[position] = parseInt(punt);
      userSelected = document.getElementById(position);
      userSelected.innerHTML === '' ? userSelected.innerHTML = value : userSelected.innerHTML = '', userSelected.innerHTML = value;
@@ -213,30 +243,34 @@ function NewGame(){
    function andTheWinnerIs(){
      console.log(winner)
      premi = winner.dreta + winner.tu + winner.esquerra + winner.dalt;
+     if(_triomf == 'butifarra'){
+       premi = (premi * 2 ) + 1;
+     }
      if(winner.tu > winner.dreta && winner.tu  > winner.esquerra && winner.tu  > winner.dalt){
        flagMeWinner = true;
-      //  teamOne += premi;
-       teamOne += 4;
+       teamOne += premi;
+       teamOne += 1;
      }else if(winner.dreta > winner.tu && winner.dreta > winner.esquerra && winner.dreta > winner.dalt){
       sortidaDeCartaGuanyadora(user3, "dreta")
-      // teamTwo += premi;
-      teamTwo += 4;
+      teamTwo += premi;
+      teamTwo += 1;
      }else if(winner.esquerra > winner.tu && winner.esquerra > winner.dreta && winner.esquerra > winner.dalt){
       sortidaDeCartaGuanyadora(user2, "esquerra")
-      // teamTwo += premi;
-      teamTwo += 4;
+      teamTwo += premi;
+      teamTwo += 1;
      }else{
       sortidaDeCartaGuanyadora(user4, "dalt")
-      // teamOne += premi;
-      teamOne += 4;
+      teamOne += premi;
+      teamOne += 1;
      }
      winner = {};
      setTimeout(function(){
        cleanTapete();
+       penalitzacio.innerHTML = ""
      }, 3000)
-     console.log(teamOne+ '......' +teamTwo)
+     puntuacioTeamA.innerHTML ===''? puntuacioTeamA.innerHTML = "Puntuacio equip A " +teamOne: puntuacioTeamA.innerHTML = '', puntuacioTeamA.innerHTML= "Puntuacio equip A " +teamOne;
+     puntuacioTeamB.innerHTML ===''? puntuacioTeamB.innerHTML = "Puntuacio equip B " +teamTwo: puntuacioTeamB.innerHTML = '', puntuacioTeamB.innerHTML= "Puntuacio equip B " +teamTwo;
    }
-
    //Escollir propera ma
    function nextHand(user, position, value, punt, pal){
      setTimeout(function(){
@@ -246,30 +280,45 @@ function NewGame(){
 
    //Començar & analitzar jugada
    function startPlay(user, position, value, punt, pal){
-     var newCard, _removecard, randomVal, randomValAndPal, _val ;
-
+     var newCard, _removecard, randomVal, randomValAndPal, _val;
+     var cartaguanyadora = false;
+     //Crear primera posibilitat
      newCard = user.filter(function(el){
         if(el.pal == _paldejugada && el.puntuacio > punt){
           return (el.pal == _paldejugada && el.puntuacio > punt)
         }else{
           if(el.pal == _paldejugada && el.puntuacio <= punt){
             return (el.pal == _paldejugada && el.puntuacio <= punt)
-          }else if(el.pal == _triomf){
+          }else if(el.pal == _triomf && el.puntuacio > punt){
             return (el.pal == _triomf && el.valor == value)
           }
         }
       });
 
+      //Crear segona posibilitat basat en la primera
+      for (var w = 0; w < newCard.length; w++){
+        if(newCard[w].puntuacio > _punt){
+          newCard = newCard.filter(function(el){ return (el.puntuacio > punt)})
+          cartaguanyadora = true;
+        }else if(newCard[w].puntuacio < _punt && newCard[w].pal == _palo){
+          newCard = newCard.filter(function(el){ return (el.puntuacio < _punt && el.pal == _palo) })
+        }else if(newCard[w].pal != _palo && newCard[w].pal == _triomf && newCard[w].puntuacio == _punt){
+          newCard = newCard.filter(function(el){ return (el.pal != _palo && el.pal == _triomf) })
+        }
+      }
+      //De las cartes seleccionades segons probabilitat, escollir una
      randomVal = Math.floor(Math.random() * newCard.length);
      randomValAndPal = Math.floor(Math.random() * user.length)
-     console.log(newCard)
-     console.log(newCard.length)
      _val = newCard[randomVal]
-     console.log(_val)
-     if(_val){
+     if(_val){ //Cartes del mateix pal
+       if(cartaguanyadora){
+         _valor = _val.valor;
+         _punt = _val.puntuacio;
+         _palo = _val.pal
+       }
        _removecard = user.indexOf(_val);
        showCard(user, position, _val.valor, _val.puntuacio, _val.pal , _removecard);
-     }else{
+     }else{ //cap carta seleccionada
        _val = user[randomValAndPal];
        _removecard = user.indexOf(_val);
        showCard(user, position, _val.valor, _val.puntuacio, _val.pal , _removecard);
