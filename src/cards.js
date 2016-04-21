@@ -1,4 +1,4 @@
-(function(){
+function NewGame(){
   var user1, user2, user3, user4, //4 jugadors -- user1 = tu!
       user1Sortida, user2Sortida, user3Sortida, user4Sortida, // carta assignada al principi per escollir qui reparteix
       _triomf, _paldejugada, card, userSelected, premi, flagMeWinner = true, // cariables per triomf, pal de jugada, carta i premi
@@ -6,7 +6,9 @@
       tapete = document.getElementById('user1'), // varibal per tapete
       sortidaInicial = document.getElementById('seleccio-init'), //carta que decideix qui inicia partida
       triomfSel = document.getElementById("seleccionat"), // variable per el contenidor on apraeix el triomf al taulei
-      triomfPals = document.getElementsByClassName('pals'), // variables per les caselles per escollir pal
+      triomfPos= document.getElementById("seleccionatPosition"), // variable per el contenidor on apraeix el triomf al taulei
+      seleccionatBasa = document.getElementById("seleccionatBasa"), //variable per pal de bassa
+      triomfPals = document.getElementsByClassName('pals_triomf'), // variables per les caselles per escollir pal
       count = 0, //contador de voltes
       winner = {}, // objecta on es llegeix la putuacio de cada jugada
       jugadorDeInici, // jugador -> company o contrari
@@ -39,16 +41,16 @@
      user2Sortida = sortida[1];
      user3Sortida = sortida[2];
      user4Sortida = sortida[3];
-     document.getElementById('tu').innerHTML = user1Sortida
-     document.getElementById('dreta').innerHTML = user3Sortida
-     document.getElementById('dalt').innerHTML = user4Sortida
-     document.getElementById('esquerra').innerHTML = user2Sortida
+    //  document.getElementById('tu').innerHTML = user1Sortida
+    //  document.getElementById('dreta').innerHTML = user3Sortida
+    //  document.getElementById('dalt').innerHTML = user4Sortida
+    //  document.getElementById('esquerra').innerHTML = user2Sortida
 
      shuffle(pilot);
 
      cartaDeSortida = cartaDeSortida.pal;
-     sortidaInicial.innerHTML = cartaDeSortida;
-     sortidaInicial.className = 'tapetejugada carta __' + cartaDeSortida;
+    //  sortidaInicial.innerHTML = cartaDeSortida;
+    //  sortidaInicial.className = 'tapetejugada carta __' + cartaDeSortida;
 
      if (cartaDeSortida === user1Sortida) initGame(1)
      if (cartaDeSortida === user2Sortida) initGame(2)
@@ -57,20 +59,15 @@
 
    }
    function initGame(numb){
-     console.log(numb)
      shuffle(pilot)
      //Distribueix cartes
      user1 = pilot.slice(0, 12);
-     console.log(user1.length)
      ordenarCartesPerValor(user1);
      user2 = pilot.slice(12, 24);
-     console.log(user2.length)
      ordenarCartesPerValor(user2);
      user3 = pilot.slice(24, 36);
-     console.log(user3.length)
      ordenarCartesPerValor(user3);
      user4 = pilot.slice(36, 48);
-     console.log(user4.length)
      ordenarCartesPerValor(user4);
 
      if (numb == 1) repartirAndEscollir(user1, 'tu')
@@ -86,7 +83,6 @@
 
    //Escollir triomf (????)
    function repartirAndEscollir(user, position){
-     console.log('guanyador es: '+user)
      user == user4 ? jugadorDeInici = 'company' : jugadorDeInici = 'contrari'
      console.log('JUGADOR DE INICI: ' + jugadorDeInici)
      if(user != user1){
@@ -94,32 +90,15 @@
        user.forEach(function(x) {
          counts[x.pal] = (counts[x.pal] || 0)+1;
          if(counts[x.pal] >= 4 ){
-           createTriomfSign(x.pal)
+           createTriomfSign(x.pal, position)
          }
        });
-       if(user.length != 0){
-         sortidaDeCartaGuanyadora(user, position)
-       }else{
-         switch (user) {
-           case 1:
-             initGame(1)
-             break;
-           case 2:
-             initGame(2)
-             break;
-           case 3:
-             initGame(3)
-             break;
-           case 4:
-             initGame(4)
-             break;
-           }
-       }
+      sortidaDeCartaGuanyadora(user, position)
      }else{
        for(var t = 0; t < triomfPals.length; t++){
          triomfPals[t].addEventListener('click', function(){
            var pal = this.innerHTML.toLowerCase();
-           createTriomfSign(pal)
+           createTriomfSign(pal, 'tu')
          })
        }
      }
@@ -127,14 +106,13 @@
 
    //Carta de sortida
    function sortidaDeCartaGuanyadora(user, position){
-     console.log('THE USER US: '+ user)
      flagMeWinner = false;
      if(user.length != 0){
        setTimeout(function(){
          var firstcard = user[Math.floor(Math.random() * user.length)];
          _paldejugada = firstcard.pal;
-         console.log('Carata de sortida pa es: '+ _paldejugada)
          console.log('EL PAL DE SORTIDA ES '+ _paldejugada)
+         seleccionatBasa.innerHTML = 'EL PAL DE SORTIDA ES '+ _paldejugada;
          showCard(user,position, firstcard.valor, firstcard.puntuacio, firstcard.pal, user.indexOf(firstcard))
        }, 4000)
      }else{
@@ -157,13 +135,14 @@
    }
 
    //Create triomf sign
-   function createTriomfSign(pal){
+   function createTriomfSign(pal, position){
+
      triomfSel.previousElementSibling.style.display = "none";
-     triomfSel.setAttribute('class', 'pals __' + pal);
-     triomfSel.innerHTML = pal;
+    //  triomfSel.setAttribute('class', 'pals __' + pal);
+    triomfPos.innerHTML = 'TRIOMF ESCOLLIT PER JUGADOR ' + position;
+     triomfSel.innerHTML = 'EL TRIOMF ES: ' + pal;
      _triomf = pal;
-     console.log('EL TRIOMF ESCOLLIT ES '+ _triomf)
-   }
+  }
 
    //Produeix les tevas cartes
    function myCards(){
@@ -185,7 +164,7 @@
          showCard(user1, 'tu', val, punt, pal, null);
          if(flagMeWinner){
            _paldejugada = pal;
-           console.log('EL PAL DE SORTIDA ES '+ _paldejugada)
+           seleccionatBasa.innerHTML = 'EL PAL DE SORTIDA ES '+ _paldejugada
          }
          this.remove();
        })
@@ -194,12 +173,13 @@
 
    //Ensenya carta jugada
    function showCard(player, position, value, punt, pal, removedcard){
-     for(var t = 0; t < player.length; t++){
-       console.log(player[t].valor + ' ' + player[t].pal)
-     }
+    //  for(var t = 0; t < player.length; t++){
+    //    console.log(player[t].valor + ' ' + player[t].pal)
+    //  }
      player.splice(removedcard, 1);
      //Check and reset count
      count == 4 ? count = 1 : count += 1;
+     console.log('VALUE IS: '+ value + ' POINTS ARE ' + punt + ' AND PAL ' + pal);
      winner[position] = parseInt(punt);
      userSelected = document.getElementById(position);
      userSelected.innerHTML === '' ? userSelected.innerHTML = value : userSelected.innerHTML = '', userSelected.innerHTML = value;
@@ -235,19 +215,19 @@
      premi = winner.dreta + winner.tu + winner.esquerra + winner.dalt;
      if(winner.tu > winner.dreta && winner.tu  > winner.esquerra && winner.tu  > winner.dalt){
        flagMeWinner = true;
-       teamOne += premi;
+      //  teamOne += premi;
        teamOne += 4;
      }else if(winner.dreta > winner.tu && winner.dreta > winner.esquerra && winner.dreta > winner.dalt){
       sortidaDeCartaGuanyadora(user3, "dreta")
-      teamTwo += premi;
-      teamOne += 4;
+      // teamTwo += premi;
+      teamTwo += 4;
      }else if(winner.esquerra > winner.tu && winner.esquerra > winner.dreta && winner.esquerra > winner.dalt){
       sortidaDeCartaGuanyadora(user2, "esquerra")
-      teamTwo += premi;
-      teamOne += 4;
+      // teamTwo += premi;
+      teamTwo += 4;
      }else{
       sortidaDeCartaGuanyadora(user4, "dalt")
-      teamOne += premi;
+      // teamOne += premi;
       teamOne += 4;
      }
      winner = {};
@@ -300,4 +280,5 @@
      repartirCartaInitial();
    })();
 
-})();
+};
+NewGame();

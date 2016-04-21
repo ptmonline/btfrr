@@ -1,0 +1,26 @@
+{
+  "name": "btfrr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cards.helpers.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ptmonline/btfrr.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ptmonline/btfrr/issues"
+  },
+  "homepage": "https://github.com/ptmonline/btfrr#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.6",
+    "gulp-less": "^3.0.5",
+    "gulp-mocha-phantomjs": "^0.11.0",
+    "gulp-rename": "^1.2.2"
+  }
+}

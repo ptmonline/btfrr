@@ -1,123 +1,10 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html class="no-js" lang="">
   <head>
     <meta charset="utf-8">
     <title>Butifarra</title>
-    <style media="screen">
-      #tablero{
-        position: relative;
-        margin: 20px auto;
-        width: 800px;
-        height: 600px;
-        border: 1px solid;
-      }
-      #tablero div{
-        display:block;
-      }
-      #user1{
-        position:absolute;
-        bottom:0;
-        left:55px;
-      }
-      .carta{
-        width: 60px;
-        height:115px;
-        border-radius: 12px;
-        float:left;
-        margin-right: 10px;
-        opacity: 1;
-        font-family:Helvetica;
-        font-size:22px;
-        text-align: center;
-        position: relative;
-        z-index:9;
-        border:1px solid #bebebe;
-        margin-left: -22px;
-        color:#ffffff;
-        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-        text-align:left;
-        padding: 10px 0 0 10px;
-
-      }
-      .__oros{
-        background-color: rgba(255,250,133, 0.6);
-        background-image: url(assets/oro.png);
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-      }
-      .__bastos{
-        background: rgba(167,212,77, 0.6);
-        background-image: url(assets/bast.png);
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-      }
-      .__espasses{
-        background: rgba(90,150,167, 0.6);
-        background-image: url(assets/esp.png);
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-      }
-      .__copes{
-        background: rgba(150,113,113, 0.6);
-        background-image: url(assets/cop.png);
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-      }
-      .jugada{
-        width:500px;
-        height:400px;
-        position:relative;
-        margin:40px auto;
-      }
-      #esquerra{
-        position:absolute;
-        top: 150px;
-        left:100px;
-      }
-      #dreta{
-        position:absolute;
-        top: 150px;
-        right:100px;
-      }
-      #dalt{
-        position:absolute;
-        top: 0px;
-        right:215px;
-      }
-      #tu{
-        position:absolute;
-        bottom: -20px;
-        right:215px;
-      }
-      #seleccio-init{
-        position: absolute;
-        top:150px;
-        right:215px;
-      }
-      .seleccio{
-        width: 100px;
-        height:100%;
-        position: absolute;
-        top:40px;
-        right:10px;
-      }
-      .pals{
-        width:80px;
-        height:50px;
-        float:left;
-        border:1px solid black;
-        margin:10px;
-      }
-      .butifarra{
-        background-color: black;
-        color:#ffffff;
-      }
-      #seleccionat{
-        position:absolute;
-        top:40px;
-        left:10px;
-      }
-    </style>
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/cards.min.css" media="screen" title="no title" charset="utf-8">
   </head>
   <body>
     <div id="tablero">
@@ -130,16 +17,25 @@
         <div id="seleccio-init" class="carta"></div>
       </div>
       <div class="seleccio">
-        <div class="pals __oros">OROS</div>
-        <div class="pals __copes">COPES</div>
-        <div class="pals __espasses">ESPASSES</div>
-        <div class="pals __bastos">BASTOS</div>
-        <div class="pals butifarra">BUTIFARRA</div>
+        <h3>Selecciona Triomf</h3>
+        <div class="pals_triomf">OROS</div>
+        <div class="pals_triomf">COPES</div>
+        <div class="pals_triomf">ESPASSES</div>
+        <div class="pals_triomf">BASTOS</div>
+        <div class="pals_triomf">BUTIFARRA</div>
       </div>
-      <div id="seleccionat" class="pals">&nbsp;</div>
+      <!-- <div class="texte-seleccio">
+        <span>Triomf</span>
+        <div id="seleccionat" class="pals">&nbsp;</div>
+      </div> -->
+      <!-- <div class="texte-seleccio">Triomf</div>-->
+
+      <div id="seleccionat" class="pal-seleccionat">&nbsp;</div>
+      <div id="seleccionatPosition" class="pal-seleccionat">&nbsp;</div>
+      <div id="seleccionatBasa" class="pal-seleccionat">&nbsp;</div>
     </div>
-    <script src="cards.helpers.js" charset="utf-8"></script>
-    <script src="cards.js" charset="utf-8"></script>
+    <script src="src/cards.helpers.js" charset="utf-8"></script>
+    <script src="src/cards.js" charset="utf-8"></script>
 
   </body>
 </html>
