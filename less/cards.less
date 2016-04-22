@@ -2,6 +2,12 @@
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
+.font_master{
+  text-transform: uppercase;
+  font-family: Inconsolata;
+  font-size:12px;
+}
+
 @oros: rgba(255,250,133, 0.6);
 @bastos: rgba(167,212,77, 0.6);
 @espasses: rgba(90,150,167, 0.6);
@@ -13,7 +19,6 @@
   margin: 20px auto;
   width: 800px;
   height: 600px;
-  // border: 1px solid;
 }
 #tablero div{
   display:block;
@@ -103,13 +108,9 @@
   width:79px;
   cursor: pointer;
   text-align: center;
-  text-transform: uppercase;
-  font-family: Inconsolata;
-  font-size:12px;
+  .font_master;
   .pals_triomf{
-    text-transform: uppercase;
-    font-family: Inconsolata;
-    font-size:12px;
+    .font_master;
     margin-top:20px;
   }
 }
@@ -131,17 +132,13 @@
   float:left;
   width:220px;
   .pal-seleccionat{
-    text-transform: uppercase;
-    font-family: Inconsolata;
-    font-size:12px;
+    .font_master;
     position:relative;
     margin:10px 0;
     display:block;
   }
   h3{
-    text-transform: uppercase;
-    font-family: Inconsolata;
-    font-size:12px;
+    .font_master;
     margin:0 0 5px;
   }
   #seleccionat{
