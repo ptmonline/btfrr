@@ -116,12 +116,16 @@ function NewGame(){
          _paldejugada = firstcard.pal;
          seleccionatBasa.innerHTML = 'EL PAL DE SORTIDA ES '+ _paldejugada;
          showCard(user,position, firstcard.valor, firstcard.puntuacio, firstcard.pal, user.indexOf(firstcard))
-         basaSortidaGuanyador.innerHTML === '' ? basaSortidaGuanyador.innerHTML = "Guanyador de la bassa " + position : basaSortidaGuanyador.innerHTML = '', basaSortidaGuanyador.innerHTML = "Guanyador de la bassa " + position
+         basaSortidaGuanyador.innerHTML === '' ? basaSortidaGuanyador.innerHTML = "Jugador de sortida " + position : basaSortidaGuanyador.innerHTML = '', basaSortidaGuanyador.innerHTML = "Jugador de sortida " + position
        }, 4000)
      }else{
        if(teamOne >= 101 || teamTwo >= 101){
          teamOne >= 101 ? alert('GAME OVER! TeamOne (tu i dalt) GUANYADORS!!') : alert('GAME OVER! TeamTwo (esquerra i dreta) GUANYADORS!!');
-         novaPartida.style.display = 'block'
+         novaPartida.style.display = 'block';
+         novaPartida.addEventListener("click", function(){
+           cleanInfo();
+           NewGame();
+         })
        }else{
          switch (user) {
            case user1:
@@ -141,7 +145,7 @@ function NewGame(){
      }
    }
 
-   //Create triomf sign
+   //Crear triomf sign
    function createTriomfSign(pal, position){
      seleccioInit.style.display = "none";
      triomfPos.innerHTML = 'TRIOMF ESCOLLIT PER JUGADOR ' + position;
@@ -191,6 +195,7 @@ function NewGame(){
          if(flagMeWinner){
            _paldejugada = pal;
            seleccionatBasa.innerHTML = 'EL PAL DE SORTIDA ES '+ _paldejugada;
+           basaSortidaGuanyador.innerHTML === '' ? basaSortidaGuanyador.innerHTML = "Jugador de sortida tu" : basaSortidaGuanyador.innerHTML = '', basaSortidaGuanyador.innerHTML = "Jugador de sortida tu"
            _valor = val;
            _punt = punt;
            _palo = pal
