@@ -84,7 +84,6 @@ function NewGame(){
    //Escollir triomf (????)
    function repartirAndEscollir(user, position){
      user == user4 ? jugadorDeInici = 'company' : jugadorDeInici = 'contrari'
-     console.log('JUGADOR DE INICI: ' + jugadorDeInici)
      if(user != user1){
        var counts = {};
        user.forEach(function(x) {
@@ -211,7 +210,6 @@ function NewGame(){
 
    //Ensenya carta jugada
    function showCard(player, position, value, punt, pal, removedcard){
-     console.log('CARTA INITIAL ', +_valor+' '+_paldejugada+' '+_punt)
      player.splice(removedcard, 1);
      //Check and reset count
      count == 4 ? count = 1 : count += 1;
@@ -246,7 +244,6 @@ function NewGame(){
 
    // Escollir guanyador ::TODO Refactor this!!
    function andTheWinnerIs(){
-     console.log(winner)
      premi = winner.dreta + winner.tu + winner.esquerra + winner.dalt;
      if(_triomf == 'butifarra'){
        premi = (premi * 2 ) + 1;
