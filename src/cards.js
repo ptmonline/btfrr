@@ -1,4 +1,5 @@
 function NewGame(){
+  // TODO:: Refactor this !!!
   var user1, user2, user3, user4, //4 jugadors -- user1 = tu!
       user1Sortida, user2Sortida, user3Sortida, user4Sortida, // carta assignada al principi per escollir qui reparteix
       _triomf, _paldejugada, _valor, _punt, _palo, card, userSelected, premi, flagMeWinner = true, // cariables per triomf, pal de jugada, carta i premi
