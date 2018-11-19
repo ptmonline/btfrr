@@ -1,4 +1,4 @@
-# Javascript code for the classic **Butifarra** game
+# Javascript code for the classic **Butifarra** game (test)
 
 ## Description
 
